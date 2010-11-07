@@ -64,7 +64,6 @@ Trie.prototype = {
             pos = 0;
         }
         if(pos === str.length) {
-            //console.log("added " + word);
             T.words ++;
             return;
         }
@@ -101,7 +100,6 @@ Trie.prototype = {
             return;
         }
         if(pos === str.length) {
-            //console.log("removed " + word);
             T.words --;
             return;
         }
@@ -224,7 +222,6 @@ Trie.prototype = {
             child,
             ret = [];
             
-        //console.log(str);
         if(T === undefined) {
             return [];
         }
