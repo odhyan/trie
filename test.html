@@ -27,7 +27,7 @@ YUI().use("node", "console", "test",function (Y) {
             this.T.insert("hello");
             
             var Assert = Y.Assert,
-                ret = this.T.getWords(""); //get all words
+                ret = this.T.getAllWords(); //get all words
             
             Assert.areEqual(1, ret.length, "Trie should have one item");
             Assert.areEqual("hello", ret[0], "First item should be 'hello'");   
@@ -38,7 +38,7 @@ YUI().use("node", "console", "test",function (Y) {
             this.T.insert("world");
             
             var Assert = Y.Assert,
-                ret = this.T.getWords(""); //get all words
+                ret = this.T.getAllWords(); //get all words
             
             Assert.areEqual(2, ret.length, "Trie should have two items");
             Assert.areEqual("hello", ret[0], "First item should be 'hello'");
@@ -63,7 +63,7 @@ YUI().use("node", "console", "test",function (Y) {
             this.T.remove("hello");
             
             var Assert = Y.Assert,
-                ret = this.T.getWords(""); //get all words
+                ret = this.T.getAllWords(); //get all words
             
             Assert.areEqual(1, ret.length, "Trie should have one item left");
             Assert.areEqual("world", ret[0], "First item should be 'world' now");
@@ -74,7 +74,7 @@ YUI().use("node", "console", "test",function (Y) {
             this.T.remove("world");
             
             var Assert = Y.Assert,
-                ret = this.T.getWords(""); //get all words
+                ret = this.T.getAllWords(); //get all words
             
             Assert.areEqual(0, ret.length, "Trie should be empty");
         }
@@ -96,7 +96,7 @@ YUI().use("node", "console", "test",function (Y) {
             this.T.update("hello", "world");
             
             var Assert = Y.Assert,
-                ret = this.T.getWords(""); //get all words
+                ret = this.T.getAllWords(); //get all words
             
             Assert.areEqual(1, ret.length, "Trie should have one item");
             Assert.areEqual("world", ret[0], "Item should be 'world'");
@@ -180,7 +180,7 @@ YUI().use("node", "console", "test",function (Y) {
         
         testGetWords: function() {
             var Assert = Y.Assert,
-                ret = this.T.getWords(""); //get all words
+                ret = this.T.getAllWords(); //get all words
             
             Assert.areEqual(2, ret.length, "trie has 2 words");
             Assert.areEqual("hello", ret[0], "First word is 'hello'");

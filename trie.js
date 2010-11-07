@@ -210,18 +210,20 @@ Trie.prototype = {
     },
     
     /*
-    * Get all words that begin with a given prefix
+    * Get all words in the dictionary
     *
-    * @method getWords
-    * @param {String} str Prefix of all words to be returned
-    * @return {Array} Array of words with the given prefix
+    * @method getAllWords
+    * @param {String} str Prefix of current word
+    * @return {Array} Array of words in the dictionary
     */
-    getWords: function(str) {
+    getAllWords: function(str) {
         var T = this,
             k,
             child,
             ret = [];
-            
+        if(str === undefined) {
+			str = "";
+		}
         if(T === undefined) {
             return [];
         }
@@ -230,7 +232,7 @@ Trie.prototype = {
         }
         for(k in T.children) {
             child = T.children[k];
-            ret = ret.concat(child.getWords(str + k));
+            ret = ret.concat(child.getAllWords(str + k));
         }
         return ret;
     },
@@ -261,7 +263,7 @@ Trie.prototype = {
             return [];
         }
         if(pos === str.length - 1) {
-            return child.getWords(str);
+            return child.getAllWords(str);
         }
         return child.autoComplete(str, pos + 1);
     }
