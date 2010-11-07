@@ -1,2 +1,8 @@
 Trie data-structure implemented in javascript.
 Version 0.1
+
+Trie source file: trie.js
+
+Tests: test.html
+
+Auto-complete demo: autocomplete.html
