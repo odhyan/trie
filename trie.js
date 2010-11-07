@@ -222,8 +222,8 @@ Trie.prototype = {
             child,
             ret = [];
         if(str === undefined) {
-			str = "";
-		}
+            str = "";
+        }
         if(T === undefined) {
             return [];
         }
