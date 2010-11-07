@@ -1,0 +1,236 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<title>Trie Tests</title>
+<script src="http://yui.yahooapis.com/3.2.0/build/yui/yui-min.js"></script>
+<script src="trie.js"></script>
+</head>
+<body class="yui3-skin-sam  yui-skin-sam">
+<h1>Trie Tests</h1>
+<div id="testLogger"></div> 
+<script>
+YUI().use("node", "console", "test",function (Y) {
+    Y.namespace("test");
+    
+    Y.test.TestInsert = new Y.Test.Case({
+        name: "Insert Tests",
+        
+        setUp: function() {
+            this.T = new Trie();
+        },
+        
+        tearDown: function() {
+            delete this.T;
+        },
+        
+        testInsertSingle: function() {
+            this.T.insert("hello");
+            
+            var Assert = Y.Assert,
+                ret = this.T.getWords(""); //get all words
+            
+            Assert.areEqual(1, ret.length, "Trie should have one item");
+            Assert.areEqual("hello", ret[0], "First item should be 'hello'");   
+        },
+        
+        testInsertMultiple: function() {
+            this.T.insert("hello");
+            this.T.insert("world");
+            
+            var Assert = Y.Assert,
+                ret = this.T.getWords(""); //get all words
+            
+            Assert.areEqual(2, ret.length, "Trie should have two items");
+            Assert.areEqual("hello", ret[0], "First item should be 'hello'");
+            Assert.areEqual("world", ret[1], "Second item should be 'world'");
+        }
+    });
+    
+    Y.test.TestRemove = new Y.Test.Case({
+        name: "Remove Tests",
+        
+        setUp: function() {
+            this.T = new Trie();
+            this.T.insert("hello");
+            this.T.insert("world");
+        },
+        
+        tearDown: function() {
+            delete this.T;
+        },
+        
+        testRemoveSingle: function() {
+            this.T.remove("hello");
+            
+            var Assert = Y.Assert,
+                ret = this.T.getWords(""); //get all words
+            
+            Assert.areEqual(1, ret.length, "Trie should have one item left");
+            Assert.areEqual("world", ret[0], "First item should be 'world' now");
+        },
+        
+        testRemoveMultiple: function() {
+            this.T.remove("hello");
+            this.T.remove("world");
+            
+            var Assert = Y.Assert,
+                ret = this.T.getWords(""); //get all words
+            
+            Assert.areEqual(0, ret.length, "Trie should be empty");
+        }
+    });
+    
+    Y.test.TestUpdate = new Y.Test.Case({
+        name: "Update Tests",
+        
+        setUp: function() {
+            this.T = new Trie();
+            this.T.insert("hello");
+        },
+        
+        tearDown: function() {
+            delete this.T;
+        },
+        
+        testUpdate: function() {
+            this.T.update("hello", "world");
+            
+            var Assert = Y.Assert,
+                ret = this.T.getWords(""); //get all words
+            
+            Assert.areEqual(1, ret.length, "Trie should have one item");
+            Assert.areEqual("world", ret[0], "Item should be 'world'");
+        }
+    });
+    
+    Y.test.TestCountWord = new Y.Test.Case({
+        name: "CountWord Tests",
+        
+        setUp: function() {
+            this.T = new Trie();
+            this.T.insert("hello");
+            this.T.insert("hello");
+        },
+        
+        tearDown: function() {
+            delete this.T;
+        },
+        
+        testCountWord: function() {
+            var Assert = Y.Assert;
+            
+            Assert.areEqual(2, this.T.countWord("hello"), "'hello' was inserted twice");
+        }
+    });
+    
+    Y.test.TestCountPrefix = new Y.Test.Case({
+        name: "CountPrefix Tests",
+        
+        setUp: function() {
+            this.T = new Trie();
+            this.T.insert("hello");
+            this.T.insert("helloWorld");
+            this.T.insert("world");
+        },
+        
+        tearDown: function() {
+            delete this.T;
+        },
+        
+        testCountPrefix: function() {
+            var Assert = Y.Assert;
+            
+            Assert.areEqual(2, this.T.countPrefix("hell"), "2 words have 'hell' as prefix");
+        }
+    });
+    
+    Y.test.TestFind = new Y.Test.Case({
+        name: "Find Tests",
+        
+        setUp: function() {
+            this.T = new Trie();
+            this.T.insert("hello");
+            this.T.insert("world");
+        },
+        
+        tearDown: function() {
+            delete this.T;
+        },
+        
+        testFind: function() {
+            var Assert = Y.Assert;
+            
+            Assert.areEqual(true, this.T.find("hello"), "'helloWorld' exists in trie");
+            Assert.areEqual(false, this.T.find("xylo"), "'xylo' does not exist in trie");
+        }
+    });
+    
+    Y.test.TestGetWords = new Y.Test.Case({
+        name: "GetWords Tests",
+        
+        setUp: function() {
+            this.T = new Trie();
+            this.T.insert("hello");
+            this.T.insert("world");
+        },
+        
+        tearDown: function() {
+            delete this.T;
+        },
+        
+        testGetWords: function() {
+            var Assert = Y.Assert,
+                ret = this.T.getWords(""); //get all words
+            
+            Assert.areEqual(2, ret.length, "trie has 2 words");
+            Assert.areEqual("hello", ret[0], "First word is 'hello'");
+            Assert.areEqual("world", ret[1], "Second word is 'world'");
+        }
+    });
+    
+    Y.test.TestAutoComplete = new Y.Test.Case({
+        name: "AutoComplete Tests",
+        
+        setUp: function() {
+            this.T = new Trie();
+            this.T.insert("hello");
+            this.T.insert("world");
+            this.T.insert("helloWorld");
+        },
+        
+        tearDown: function() {
+            delete this.T;
+        },
+        
+        testAutoComplete: function() {
+            var Assert = Y.Assert,
+                ret = this.T.autoComplete("hell"); //get all words starting with "hell"
+                
+            Assert.areEqual(2, ret.length, "trie has 2 words starting with 'hell'");
+            Assert.areEqual("hello", ret[0], "First word is 'hello'");
+            Assert.areEqual("helloWorld", ret[1], "Second word is 'helloWorld'");
+        }
+    });
+    
+    Y.test.ExampleSuite = new Y.Test.Suite("Trie Tests Suite");
+    Y.test.ExampleSuite.add(Y.test.TestInsert);
+    Y.test.ExampleSuite.add(Y.test.TestRemove);
+    Y.test.ExampleSuite.add(Y.test.TestUpdate);
+    Y.test.ExampleSuite.add(Y.test.TestCountWord);
+    Y.test.ExampleSuite.add(Y.test.TestCountPrefix);
+    Y.test.ExampleSuite.add(Y.test.TestFind);
+    Y.test.ExampleSuite.add(Y.test.TestGetWords);
+    Y.test.ExampleSuite.add(Y.test.TestAutoComplete);
+    
+    var r = new Y.Console({
+        newestOnTop : false,
+        style: 'block'
+    });
+
+    r.render('#testLogger');
+    Y.Test.Runner.add(Y.test.ExampleSuite);
+    Y.Test.Runner.run(); //run the tests
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<title>Trie in Javascript</title> 
+<meta name="description" content="Implementation of Trie in Javascript by Saurabh Odhyan"> 
+<meta name="keywords" content="javascript, trie, prefix tree, dictionary, spell, spelling, spell check, data structure, saurabh, odhyan">
+<style>
+#result ul {
+    list-style-type:none;
+    margin:10px 0 0 110px;
+    padding:0;
+}
+</style>
+<script src="http://yui.yahooapis.com/3.2.0/build/yui/yui-min.js"></script>
+<script src="trie.js"></script>
+<script>
+(function() {
+    var arrayStates = [
+        "Alabama",
+        "Alaska",
+        "Arizona",
+        "Arkansas",
+        "California",
+        "Colorado",
+        "Connecticut",
+        "Delaware",
+        "Florida",
+        "Georgia",
+        "Hawaii",
+        "Idaho",
+        "Illinois",
+        "Indiana",
+        "Iowa",
+        "Kansas",
+        "Kentucky",
+        "Louisiana",
+        "Maine",
+        "Maryland",
+        "Massachusetts",
+        "Michigan",
+        "Minnesota",
+        "Mississippi",
+        "Missouri",
+        "Montana",
+        "Nebraska",
+        "Nevada",
+        "New Hampshire",
+        "New Jersey",
+        "New Mexico",
+        "New York",
+        "North Dakota",
+        "North Carolina",
+        "Ohio",
+        "Oklahoma",
+        "Oregon",
+        "Pennsylvania",
+        "Rhode Island",
+        "South Carolina",
+        "South Dakota",
+        "Tennessee",
+        "Texas",
+        "Utah",
+        "Vermont",
+        "Virginia",
+        "Washington",
+        "West Virginia",
+        "Wisconsin",
+        "Wyoming"
+    ];
+
+    var T = new Trie();
+    var i;
+    for(i = 0; i < arrayStates.length; i++) {
+        T.insert(arrayStates[i].toLowerCase());
+    }
+    
+    YUI().use('node', 'event', function(Y) {
+        var handleKey = Y.on('keyup', function(e) {
+            var textInput,
+                suggestions,
+                html,
+                i;
+                
+            textInput = Y.one("#input").get("value");
+            stateList = T.autoComplete(textInput.toLowerCase());
+            
+            html = "<ul>";
+            for(i = 0; i < stateList.length; i++) {
+                html += "<li>" + stateList[i] + "</li>";
+            }
+            html += "</ul>";
+            
+            Y.one("#result").set('innerHTML', html);
+        }, '#input');
+    });
+})();
+</script>
+</head>
+<body>
+	<h1>Auto-complete feature demo using Trie</h1>
+    <div id="trie-demo">
+        <label for="input">Enter a US state: </label>
+        <input type="text" id="input">
+        <div id="result"></div>
+    </div>
+</body>
+</html>
