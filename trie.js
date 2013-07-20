@@ -231,8 +231,10 @@ Trie.prototype = {
             ret.push(str);
         }
         for(k in T.children) {
-            child = T.children[k];
-            ret = ret.concat(child.getAllWords(str + k));
+			if (T.children.hasOwnProperty(k)) {
+				child = T.children[k];
+				ret = ret.concat(child.getAllWords(str + k));
+			}
         }
         return ret;
     },
